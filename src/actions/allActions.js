@@ -1,0 +1,2 @@
+export const FETCH_TOILETS = "FETCH_TOILETS";
+export const RECEIVE_TOILETS = "RECEIVE_TOILETS";

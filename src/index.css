@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  font-family: "Playfair Display", serif;
+}
+
+h3,
+p {
+  font-family: "Open Sans", sans-serif;
+}
+.toiletTransition-enter {
+  opacity: 0.01;
+}
+
+.toiletTransition-enter.toiletTransition-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.toiletTransition-leave {
+  opacity: 1;
+}
+
+.toiletTransition-leave.toiletTransition-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.toiletTransition-appear {
+  opacity: 0.01;
+}
+
+.toiletTransition-appear.toiletTransition-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
