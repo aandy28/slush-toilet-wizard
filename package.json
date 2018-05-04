@@ -1,6 +1,8 @@
 {
   "name": "slush-toilet-wizard",
   "version": "0.1.0",
+  "author": "Andrew Smith",
+  "description": "This is a code challenge which uses React and Redux to pull toilet statuses from an api and display them.", 
   "private": true,
   "dependencies": {
     "add": "^2.0.6",
