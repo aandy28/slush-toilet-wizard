@@ -6,11 +6,64 @@ import React from "react";
 import { CSSTransitionGroup } from "react-transition-group";
 import styled from "styled-components";
 import Toilet from "./toilet";
+import PersonType from "./personType";
 
 const ToiletsListContainer = styled.div`
   padding: 0.5rem;
   max-width: 1200px;
   margin: auto;
+
+  .key {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2000;
+    width: 100vw;
+    padding: 1em 0;
+    text-align: center;
+    background-color: rgba(0, 52, 82, 0.9);
+    color: white;
+
+    .key__title {
+      font-size: 1em;
+      white-space: nowrap;
+    }
+
+    .status-list {
+      display: -ms-flexbox;
+      display: flex;
+      margin: 0;
+      -ms-flex-pack: center;
+      justify-content: center;
+      list-style-type: none;
+      overflow: hidden;
+      white-space: nowrap;
+
+      .status-list__item {
+        margin-right: 1em;
+
+        &:before {
+          content: "";
+          display: inline-block;
+          width: 0.75em;
+          height: 0.75em;
+          margin-right: 0.75em;
+          vertical-align: middle;
+          border-radius: 1.5em;
+        }
+
+        &--short:before {
+          background-color: #329803;
+        }
+        &--average:before {
+          background-color: #f29205;
+        }
+        &--long:before {
+          background-color: #f20905;
+        }
+      }
+    }
+  }
 `;
 
 const ToiletItems = styled.div`
@@ -21,18 +74,16 @@ const ToiletItems = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
-  @media screen and (max-width: 768px)
-  {
+  @media screen and (max-width: 768px) {
     padding: 0 1vw;
   }
-
 `;
 
 const ToiletItem = styled.div`
   padding: 0 4vw;
   margin: 0 0 12vh;
-  @media screen and (max-width: 768px)
-  {
+
+  @media screen and (max-width: 768px) {
     padding: 0 2vw;
   }
   &:nth-child(odd) .item {
@@ -44,10 +95,9 @@ const ToiletItem = styled.div`
     padding-top: 10em;
     position: relative;
     cursor: pointer;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
-    &:hover
-    {
+    &:hover {
       transform: scale(1.1);
     }
 
@@ -55,10 +105,10 @@ const ToiletItem = styled.div`
       height: 20em;
       background: #000552;
       position: relative;
-      box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
 
-      @media screen and (max-width: 768px)
-      {
+      @media screen and (max-width: 768px) {
         height: 10em;
       }
     }
@@ -70,8 +120,7 @@ const ToiletItem = styled.div`
       color: #000;
       font-weight: 700;
 
-      @media screen and (max-width: 768px)
-      {
+      @media screen and (max-width: 768px) {
         font-size: 1.25em;
       }
     }
@@ -84,15 +133,14 @@ const ToiletItem = styled.div`
       top: 0;
       left: 50%;
       pointer-events: none;
+      padding: 2px;
       transform: translate3d(-50%, 0, 0);
 
-      @media screen and (max-width: 768px)
-      {
+      @media screen and (max-width: 768px) {
         max-height: 19em;
       }
 
       path {
-        fill: white;
         stroke: #000552;
         stroke-width: 2px;
       }
@@ -120,16 +168,16 @@ class toiletsList extends React.Component {
     this.setState({ isHidden: !this.state.isHidden, selectedToilet: {} });
   }
 
-  renderToilet(selectedToilet)
-  {
-    return(
-    <Toilet
+  renderToilet(selectedToilet) {
+    return (
+      <Toilet
         key={selectedToilet.id}
         hideSelected={() => {
           this.hideSelected();
         }}
         item={selectedToilet}
-      />)
+      />
+    );
   }
 
   renderData(item) {
@@ -142,36 +190,9 @@ class toiletsList extends React.Component {
           }}
         >
           <div className="item__bg" />
-          {item.type === "male" ? (
-            <svg
-              role="img"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 192 512"
-              className="svg-inline--fa fa-male fa-w-6 fa-5x"
-            >
-              <path
-                fill="currentColor"
-                d="M96 0c35.346 0 64 28.654 64 64s-28.654 64-64 64-64-28.654-64-64S60.654 0 96 0m48 144h-11.36c-22.711 10.443-49.59 10.894-73.28 0H48c-26.51 0-48 21.49-48 48v136c0 13.255 10.745 24 24 24h16v136c0 13.255 10.745 24 24 24h64c13.255 0 24-10.745 24-24V352h16c13.255 0 24-10.745 24-24V192c0-26.51-21.49-48-48-48z"
-                className=""
-              />
-            </svg>
-          ) : (
-            <svg
-              role="img"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 256 512"
-              className="svg-inline--fa fa-female fa-w-8 fa-5x"
-            >
-              <path
-                fill="currentColor"
-                d="M128 0c35.346 0 64 28.654 64 64s-28.654 64-64 64c-35.346 0-64-28.654-64-64S92.654 0 128 0m119.283 354.179l-48-192A24 24 0 0 0 176 144h-11.36c-22.711 10.443-49.59 10.894-73.28 0H80a24 24 0 0 0-23.283 18.179l-48 192C4.935 369.305 16.383 384 32 384h56v104c0 13.255 10.745 24 24 24h32c13.255 0 24-10.745 24-24V384h56c15.591 0 27.071-14.671 23.283-29.821z"
-                className=""
-              />
-            </svg>
-          )}
+          <PersonType status={item.queue_level} personType={item.type} />
 
           <h2 className="item__title">{item.map_id}</h2>
-          
         </div>
       </ToiletItem>
     );
@@ -183,18 +204,34 @@ class toiletsList extends React.Component {
     } else {
       return (
         <ToiletsListContainer className="">
+          <div className="key">
+            <h2 className="key__title">Toilet queue sizes</h2>
+            <ul className="status-list">
+              <li className="status-list__item status-list__item--short">
+                Shorter
+              </li>
+              <li className="status-list__item status-list__item--average">
+                Average
+              </li>
+              <li className="status-list__item status-list__item--long">
+                Longer
+              </li>
+            </ul>
+          </div>
           <ToiletItems>
             {this.props.toilets.map((item, index) => {
               return this.renderData(item);
             })}
           </ToiletItems>
           <CSSTransitionGroup
-          transitionName="toiletTransition"
-          transitionAppear={true}
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={300}>
-          {!this.state.isHidden && (this.renderToilet(this.state.selectedToilet))}
+            transitionName="toiletTransition"
+            transitionAppear={true}
+            transitionAppearTimeout={500}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={300}
+          >
+            {!this.state.isHidden &&
+              this.renderToilet(this.state.selectedToilet)}
           </CSSTransitionGroup>
         </ToiletsListContainer>
       );

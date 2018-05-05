@@ -1,24 +1,26 @@
 import React from "react";
 import styled from "styled-components";
+import PersonType from "./personType";
 
 const SelectedToilet = styled.div`
   position: fixed;
-  min-width: 1200px;
+  width: calc(100vw - 10vw);
   height: 100%;
   bottom: 0;
   left: 0;
-  padding: 10vh 10vh 10vh 10vw;
+  padding: 40vh 0 10vh 10vw;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   top: 0;
 
-  @media screen and (max-width: 768px)
-  {
-    padding: 30vh 0 5vh 10vw;
-    width:100%;
-    min-width: 1px;
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    width: calc(100% - 12vh);
+  }
+
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+    width: calc(100% - 12vh);
   }
 
   > * {
@@ -36,7 +38,7 @@ const SelectedToilet = styled.div`
     height: 100vh;
     background: #fff;
   }
-  .selected-toilet__bg{
+  .selected-toilet__bg {
     transform-origin: 0 0;
   }
   .selected-toilet__bg--down {
@@ -44,21 +46,19 @@ const SelectedToilet = styled.div`
     height: 60vh;
     background: #f5f0ef;
 
-    @media screen and (max-width: 768px)
-    {
+    @media screen and (max-width: 768px) {
       top: 30vh;
       height: 70vh;
     }
   }
 
   .selected-toilet__title {
-    margin: 1em 0 0.1em;
+    margin: -1.5em 0 0.1em;
     font-size: 4.5em;
     color: #000552;
     font-weight: 700;
 
-    @media screen and (max-width: 768px)
-    {
+    @media screen and (max-width: 768px) {
       font-size: 2em;
     }
   }
@@ -70,8 +70,7 @@ const SelectedToilet = styled.div`
     font-size: 1.75em;
     color: #000552;
 
-    @media screen and (max-width: 768px)
-    {
+    @media screen and (max-width: 768px) {
       font-size: 1em;
     }
   }
@@ -83,9 +82,14 @@ const SelectedToilet = styled.div`
     margin: 2em 0 0 0;
     color: #000552;
 
-    @media screen and (max-width: 768px)
-    {
-      max-width: 70%;
+    &__alert {
+      color: #f20905;
+      margin: 0;
+      padding: 0;
+    }
+
+    @media screen and (max-width: 768px) {
+      max-width: 50%;
       font-size: 0.85em;
       margin: 1em 0 0 0;
     }
@@ -96,15 +100,26 @@ const SelectedToilet = styled.div`
     top: 10vh;
     right: 10vw;
     height: 80vh;
+    padding: 2px;
 
-    @media screen and (max-width: 768px)
-    {
+    @media screen and (max-width: 768px) {
       right: -1vh;
+      height: 35vh;
+    }
+
+    @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+      height: 80vh;
+      right: 10vw;
+    }
+
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
       height: 50vh;
     }
 
-    path {
-      fill: #000552;
+    /* Landscape */
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+      height: 80vh;
+      right: 10vw;
     }
   }
 
@@ -114,36 +129,28 @@ const SelectedToilet = styled.div`
     right: 0;
     border: 0;
     background: none;
-    margin: 2em;
+    margin: 1em;
     cursor: pointer;
     font-size: 1.5em;
     color: #000552;
     padding: 1px 7px 2px;
-    width:50px;
-    
-    @media screen and (max-width: 768px)
-    {
-      top: -20px;
-      right: 20px;
-      margin: 1em;
-    }
-    
 
     &:focus {
       outline: none;
     }
 
     svg {
-    position: static;
-    height: 50px;
+      position: static;
+      display: block;
+      width: 1.5em;
+      height: 1.5em;
+      margin: 0 auto;
 
       path {
         fill: #000552;
       }
     }
   }
-
-  
 `;
 
 class Toilet extends React.Component {
@@ -158,38 +165,19 @@ class Toilet extends React.Component {
         <div className="selected-toilet__bg selected-toilet__bg--up" />
         <div className="selected-toilet__bg selected-toilet__bg--down" />
         <h2 className="selected-toilet__title">{item.map_id}</h2>
-        <h3 className="selected-toilet__subtitle">Constantin Frecker</h3>
+        <h3 className="selected-toilet__subtitle">Information:</h3>
+        {item.location !== "" ? (
+          <p className="selected-toilet__description">{item.location}</p>
+        ) : (
+          <p className="selected-toilet__description__alert">
+            There is currently no location data for this toilet.
+          </p>
+        )}
         <p className="selected-toilet__description">
           The current queue time for this toilet is {item.queue_time} minutes.
         </p>
 
-        {this.props.item.type === "male" ? (
-          <svg
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 192 512"
-            className="svg-inline--fa fa-male fa-w-6 fa-5x"
-          >
-            <path
-              fill="currentColor"
-              d="M96 0c35.346 0 64 28.654 64 64s-28.654 64-64 64-64-28.654-64-64S60.654 0 96 0m48 144h-11.36c-22.711 10.443-49.59 10.894-73.28 0H48c-26.51 0-48 21.49-48 48v136c0 13.255 10.745 24 24 24h16v136c0 13.255 10.745 24 24 24h64c13.255 0 24-10.745 24-24V352h16c13.255 0 24-10.745 24-24V192c0-26.51-21.49-48-48-48z"
-              className=""
-            />
-          </svg>
-        ) : (
-          <svg
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 256 512"
-            className="svg-inline--fa fa-female fa-w-8 fa-5x"
-          >
-            <path
-              fill="currentColor"
-              d="M128 0c35.346 0 64 28.654 64 64s-28.654 64-64 64c-35.346 0-64-28.654-64-64S92.654 0 128 0m119.283 354.179l-48-192A24 24 0 0 0 176 144h-11.36c-22.711 10.443-49.59 10.894-73.28 0H80a24 24 0 0 0-23.283 18.179l-48 192C4.935 369.305 16.383 384 32 384h56v104c0 13.255 10.745 24 24 24h32c13.255 0 24-10.745 24-24V384h56c15.591 0 27.071-14.671 23.283-29.821z"
-              className=""
-            />
-          </svg>
-        )}
+        <PersonType status={item.queue_level} personType={item.type} />
         <button
           className="selected-toilet__close"
           onClick={() => {
