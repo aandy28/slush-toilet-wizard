@@ -27,6 +27,7 @@ const ToiletsListContainer = styled.div`
     .key__title {
       font-size: 1em;
       white-space: nowrap;
+      font-family: "Open Sans", sans-serif;
     }
 
     .status-list {
